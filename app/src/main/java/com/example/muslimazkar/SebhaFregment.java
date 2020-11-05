@@ -9,6 +9,9 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -52,8 +55,9 @@ public class SebhaFregment extends Fragment implements AdapterView.OnItemSelecte
         spinner.setAdapter(gom3aa);
         //end drop down..................................
 
+        final CardView reset = v.findViewById(R.id.cardView);
         final TextView T = v.findViewById(R.id.sh2awa);
-        Button tasbe7 = v.findViewById(R.id.tasbe7);
+        final Button tasbe7 = v.findViewById(R.id.tasbe7);
         progressBar = v.findViewById(R.id.progressBar);
         progressBar.setProgress(0);
         T.setText("0");
@@ -72,16 +76,31 @@ public class SebhaFregment extends Fragment implements AdapterView.OnItemSelecte
                 progressBar.setProgress(progressBar.getProgress()+1);
                 T.setText(String.valueOf(progressBar.getProgress()));
                 vibrator.vibrate(50);
+
+                TranslateAnimation animation = new TranslateAnimation(0,0, Animation.REVERSE,-100);
+                animation.setDuration(100);
+                animation.setFillAfter(false);
+                tasbe7.startAnimation(animation);
+                tasbe7.setAnimation(animation);
+                reset.setRotation(0f);
             }
         });
+        final Animation rotateAnim = AnimationUtils.loadAnimation(getActivity(),R.anim.rotate);
 
-        CardView reset = v.findViewById(R.id.cardView);
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 T.setText("0");
                 progressBar.setProgress(0);
-                vibrator.vibrate(100);
+                vibrator.vibrate(80);
+                reset.setAnimation(rotateAnim);
+                //reset.setRotation(-90f);
+                //TranslateAnimation animation = new TranslateAnimation(0,0, Animation.REVERSE,100);
+                //animation.setDuration(200);
+                //animation.setFillAfter(false);
+                //reset.startAnimation(animation);
+                //reset.setAnimation(animation);
+
             }
         });
     }
